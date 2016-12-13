@@ -69,10 +69,15 @@ export PATH="$HOME/usr/local/bin:$BUILD_DIR/.heroku/vendor/bin:/usr/local/sbin:/
 # Setup environment
 # SBL cache dir is persisted between builds so this allows us to avoid re-fetching
 mkdir -p $CACHE_DIR
-title "Generating environment"
+title "Generating environments"
 if [ ! -f $CACHE_DIR/env.tar.gz ]; then
 	subtitle "Fetching..."
-    curl -s -L "https://s3.amazonaws.com/lobbdawg/python_opencv4.tar.gz" > $CACHE_DIR/env.tar.gz
+    curl -s -L "https://sourceforge.net/projects/boost/files/boost/1.62.0/" > $CACHE_DIR/env.tar.gz
 fi
 subtitle "Unpacking..."
 tar -xzf $CACHE_DIR/env.tar.gz -C $BUILD_DIR
+
+
+deep-mv $BUILD_DIR $ORIG_BUILD_DIR
+
+title "Buildpack installed."
