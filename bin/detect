@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "PHP + OpenCV + OpenCV FaceRecog"
+exit 0
