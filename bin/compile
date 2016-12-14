@@ -37,11 +37,16 @@ mkdir -p "$APT_STATE_DIR/lists/partial"
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
-topic "Updating apt caches"
-apt-get $APT_OPTIONS update | indent
+if [ $(cat $CACHE_DIR/last_update) != $(date +%D) ]; then
+  date +%D > $CACHE_DIR/last_update
+  topic "Updating apt caches"
+  apt-get $APT_OPTIONS update | indent
 
-topic "Upgrating apt caches"
-apt-get $APT_OPTIONS -d -y --force-yes upgrade | indent
+  topic "Upgrating apt caches"
+  apt-get $APT_OPTIONS -d -y --force-yes upgrade | indent
+else
+  topic "Has apt caches Updateds"
+fi
 
 for PACKAGE in $(cat <<EOF
 libopencv-dev
