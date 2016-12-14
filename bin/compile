@@ -100,3 +100,4 @@ export CXXFLAGS="$CXXFLAGS -fPIC"
 export CFLAGS="$CFLAGS -fPIC"
 cd $LP_DIR/opencv-facerecog
 source ./run.sh
+mv ./opencv-facerecog $BUILD_DIR/.apt/usr/bin/
