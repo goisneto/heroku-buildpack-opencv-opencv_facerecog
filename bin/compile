@@ -49,6 +49,8 @@ fi
 
 for PACKAGE in $(cat <<EOF
 libboost-dev
+libboost-system-dev
+libboost-filesystem-dev
 libopencv-dev
 python-opencv
 libpam0g-dev
