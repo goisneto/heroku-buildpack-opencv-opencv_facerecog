@@ -41,7 +41,7 @@ topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
 topic "Upgrating apt caches"
-apt-get $APT_OPTIONS upgrade | indent
+apt-get $APT_OPTIONS -d -y --force-yes upgrade | indent
 
 for PACKAGE in $(cat <<EOF
 libopencv-dev
