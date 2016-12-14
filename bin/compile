@@ -44,10 +44,11 @@ topic "Upgrating apt caches"
 apt-get upgrade | indent
 
 for PACKAGE in $(cat <<EOF
-cmake
+libopencv-dev
+python-opencv
 EOF); do
     topic "Fetching .debs for $PACKAGE"
-    apt-get -d -y --force-yes install --reinstall $PACKAGE | indent
+    apt-get $APT_OPTIONS -d -y --force-yes install --reinstall $PACKAGE | indent
 done
 mkdir -p $BUILD_DIR/.apt
 
