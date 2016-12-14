@@ -1,1 +1,1 @@
-# heroku-buildpack-php-opencv-opencv_facerecog
+# heroku-buildpack-opencv-opencv_facerecog
