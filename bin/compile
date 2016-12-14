@@ -1,83 +1,74 @@
 #!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
 
-# SBL takes in BUILD_DIR CACHE_DIR ENV_DIR
+# fail fast
+set -e
 
-title() {
+# debug
+# set -x
+
+# parse and derive params
+BUILD_DIR=$1
+CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+function error() {
+  echo " !     $*" >&2
+  exit 1
+}
+
+function topic() {
   echo "-----> $*"
 }
 
-subtitle() {
-  echo "       $*"
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
 }
 
-# Taken from python heroku buildpack
-###################################
-shopt -s extglob
+APT_CACHE_DIR="$CACHE_DIR/apt/cache"
+APT_STATE_DIR="$CACHE_DIR/apt/state"
 
-if [ $(uname) == Darwin ]; then
-    sed() { command sed -l "$@"; }
-else
-    sed() { command sed -u "$@"; }
-fi
+mkdir -p "$APT_CACHE_DIR/archives/partial"
+mkdir -p "$APT_STATE_DIR/lists/partial"
 
-# Does some serious copying.
-deep-cp() {
-  declare source="$1" target="$2"
+APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
-  mkdir -p "$target"
+topic "Updating apt caches"
+apt-get update | indent
 
-  # cp doesn't like being called without source params,
-  # so make sure they expand to something first.
-  # subshell to avoid surprising caller with shopts.
-  (
-    shopt -s nullglob dotglob
-    set -- "$source"/!(tmp|.|..)
-    [[ $# == 0 ]] || cp -a "$@" "$target"
-  )
-}
+topic "Upgrating apt caches"
+apt-get upgrade | indent
 
-# Does some serious moving.
-deep-mv() {
-  deep-cp "$1" "$2"
-  deep-rm "$1"
-}
-
-# Does some serious deleting.
-deep-rm() {
-  # subshell to avoid surprising caller with shopts.
-  (
-    shopt -s dotglob
-    rm -rf "$1"/!(tmp|.|..)
-  )
-}
-###################################
-
-BUILD_DIR=$1
-CACHE_DIR=$2
-
-APP_DIR="/app"
-deep-mv $BUILD_DIR $APP_DIR
-ORIG_BUILD_DIR=$BUILD_DIR
-BUILD_DIR=$APP_DIR
-cd $BUILD_DIR
-
-unset LD_LIBRARY_PATH PATH
-
-export LD_LIBRARY_PATH="$BUILD_DIR/.heroku/vendor/lib/"
-export PATH="$HOME/usr/local/bin:$BUILD_DIR/.heroku/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
-# Setup environment
-# SBL cache dir is persisted between builds so this allows us to avoid re-fetching
-mkdir -p $CACHE_DIR
-title "Generating environments"
-if [ ! -f $CACHE_DIR/env.tar.gz ]; then
-	subtitle "Fetching..."
-    curl -s -L "https://sourceforge.net/projects/boost/files/boost/1.62.0/" > $CACHE_DIR/env.tar.gz
-fi
-subtitle "Unpacking..."
-tar -xzf $CACHE_DIR/env.tar.gz -C $BUILD_DIR
-
-
-deep-mv $BUILD_DIR $ORIG_BUILD_DIR
-
-title "Buildpack installed."
+for PACKAGE in $(cat <<EOF
+npm
+nodejs
+sudo
+aptitude
+libboost-dev
+build-essential
+libpam0g-dev
+cmake
+git
+libgtk2.0-dev
+pkg-config
+libavcodec-dev
+libavformat-dev
+libswscale-dev
+python-dev
+python-numpy
+libtbb2
+libtbb-dev
+libjpeg-dev
+libpng-dev
+libtiff-dev
+libjasper-dev
+libdc1394-22-dev
+libfreetype-dev
+EOF); do
+    topic "Fetching .debs for $PACKAGE"
+    apt-get -y --force-yes install --reinstall $PACKAGE | indent
+done
