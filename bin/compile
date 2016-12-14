@@ -53,7 +53,9 @@ fi
 for PACKAGE in $(cat <<EOF
 libopencv-dev
 python-opencv
-EOF); do
+libpam0g-dev
+EOF
+); do
     topic "Fetching .debs for $PACKAGE"
     apt-get $APT_OPTIONS -d -y --force-yes install --reinstall $PACKAGE | indent
 done
