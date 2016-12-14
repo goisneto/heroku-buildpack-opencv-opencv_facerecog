@@ -38,10 +38,10 @@ mkdir -p "$APT_STATE_DIR/lists/partial"
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
 topic "Updating apt caches"
-apt-get update | indent
+apt-get $APT_OPTIONS update | indent
 
 topic "Upgrating apt caches"
-apt-get upgrade | indent
+apt-get $APT_OPTIONS upgrade | indent
 
 for PACKAGE in $(cat <<EOF
 libopencv-dev
