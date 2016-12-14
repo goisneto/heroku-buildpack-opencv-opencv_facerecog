@@ -48,6 +48,7 @@ else
 fi
 
 for PACKAGE in $(cat <<EOF
+libboost-dev
 libopencv-dev
 python-opencv
 libpam0g-dev
