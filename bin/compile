@@ -99,6 +99,6 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 export CXXFLAGS="$CXXFLAGS -fPIC"
 export CFLAGS="$CFLAGS -fPIC"
 cd $LP_DIR/opencv-facerecog
-source ./run.sh
+make clean
+make
 mv ./opencv-facerecog $BUILD_DIR/.apt/usr/bin/
-mv ~/.opencv-facerecog $BUILD_DIR
