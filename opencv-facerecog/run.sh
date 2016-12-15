@@ -1,6 +1,6 @@
 #!/bin/sh
 
-WORKING_DIR=`echo "$HOME/.opencv-facerecog"`
+WORKING_DIR=`echo "$PWD/.opencv-facerecog"`
 FACES_DIR=`echo "$WORKING_DIR/faces"`
 
 # create dirs

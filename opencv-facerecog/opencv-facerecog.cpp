@@ -62,13 +62,6 @@
 
 using namespace std;
 using namespace boost;
-
-#ifndef isnan
-inline bool isnan( float x ) {
-    return x != x;
-}
-#endif
-
 // simple container class
 class Eigenface {
 public:
@@ -373,8 +366,7 @@ void storeTrainingData( const Eigenface& data, const string& filename ) {
 int main( int argc, char** argv ) {
 
     // setup env vars
-    char* env   = getenv( "HOME" );
-    string workingDir  = string( env ) + "/" + WORKING_DIR;
+    string workingDir  = filesystem::current_path().string() + "/" + WORKING_DIR;
     filesystem::create_directory( workingDir );
     string facesDir    = workingDir  + "/" + FACES_DIR;
     string cascadeFile = workingDir  + "/" + CASCADE_FILE;
