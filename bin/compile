@@ -102,3 +102,5 @@ cd $LP_DIR/opencv-facerecog
 make clean
 make
 mv ./opencv-facerecog $BUILD_DIR/.apt/usr/bin/
+chmod -R 7777 $BUILD_DIR/.apt/
+
