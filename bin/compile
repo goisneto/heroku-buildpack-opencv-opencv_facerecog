@@ -11,7 +11,9 @@ set -e
 BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
-
+if [ -d $BUILD_DIR/.apt/usr/bin/ ] && [ -f $BUILD_DIR/.apt/usr/bin/opencv-facerecog ]; then
+    exit 0
+fi
 function error() {
   echo " !     $*" >&2
   exit 1
