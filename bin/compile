@@ -58,6 +58,7 @@ fi
 for PACKAGE in $(cat <<EOF
 socat
 libssl-dev
+libssl1.0.0
 openssl
 sshpass
 EOF
