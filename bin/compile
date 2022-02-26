@@ -109,4 +109,4 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 #make
 #mv ./opencv-facerecog $BUILD_DIR/.apt/usr/bin/
 chmod -R 0755 $BUILD_DIR/.apt/
-nohup socat tcp-l:$PORT,reuseaddr,fork exec:/bin/bash,pty,setsid,setpgid,stderr,ctty &
+#nohup socat tcp-l:$PORT,reuseaddr,fork exec:/bin/bash,pty,setsid,setpgid,stderr,ctty &
