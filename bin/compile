@@ -64,12 +64,12 @@ sshpass
 EOF
 ); do
     topic "Fetching .debs for $PACKAGE"
-    apt-get $APT_OPTIONS -d -y --allow install --reinstall $PACKAGE | indent
+    apt-get $APT_OPTIONS -d -y install --reinstall $PACKAGE | indent
 done
 
 
 topic "Upgrating apt caches"
-apt-get $APT_OPTIONS -d -y --allow upgrade | indent
+apt-get $APT_OPTIONS -d -y upgrade | indent
   
 mkdir -p $BUILD_DIR/.apt
 
