@@ -84,6 +84,7 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   topic "Installing $(basename $DEB)"
   dpkg -x $DEB $BUILD_DIR/.apt/
 done
+sed -i -r 's~/usr/~/app/.apt/usr/~g' $BUILD_DIR/.apt/usr/bin/autossh
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
