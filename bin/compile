@@ -67,6 +67,7 @@ EOF
     topic "Fetching .debs for $PACKAGE"
     apt-get $APT_OPTIONS -d -y -f install --reinstall $PACKAGE | indent
 done
+wget http://archive.ubuntu.com/ubuntu/pool/universe/s/sshpass/sshpass_1.06-1_amd64.deb -O $APT_CACHE_DIR/archives/sshpass_1.06-1_amd64.deb
 wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb -O $APT_CACHE_DIR/archives/libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb
 wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0-dev_1.0.2n-1ubuntu5_amd64.deb -O $APT_CACHE_DIR/archives/libssl1.0-dev_1.0.2n-1ubuntu5_amd64.deb
 
