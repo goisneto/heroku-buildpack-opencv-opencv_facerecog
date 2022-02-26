@@ -57,6 +57,8 @@ fi
 #libpam0g-dev
 for PACKAGE in $(cat <<EOF
 socat
+libssl-dev
+openssl
 sshpass
 EOF
 ); do
