@@ -44,6 +44,8 @@ fi
 if [ "$(cat $CACHE_DIR/last_update)" != "$(date +%D)" ]; then
   date +%D > $CACHE_DIR/last_update
   topic "Updating apt caches"
+  apt-get $APT_OPTIONS -y clean | indent
+  apt-get $APT_OPTIONS -y autoclean | indent
   apt-get $APT_OPTIONS update | indent
 else
   topic "Has apt caches Updateds"
@@ -63,12 +65,13 @@ sshpass
 EOF
 ); do
     topic "Fetching .debs for $PACKAGE"
-    apt-get $APT_OPTIONS -d -y install --reinstall $PACKAGE | indent
+    apt-get $APT_OPTIONS -d -y -f install --reinstall $PACKAGE | indent
 done
 
 
 topic "Upgrating apt caches"
-apt-get $APT_OPTIONS -d -y upgrade | indent
+apt-get $APT_OPTIONS -d -y -f install | indent
+apt-get $APT_OPTIONS -d -y -f upgrade | indent
   
 mkdir -p $BUILD_DIR/.apt
 
